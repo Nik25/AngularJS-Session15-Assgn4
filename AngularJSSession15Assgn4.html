@@ -1,0 +1,55 @@
+<!--Directive to demonstrate method binding of
+parent scope method in isolated scopes -->
+
+<!Doctype html>
+<html>
+<head>
+    <title>AngularJS-Session15-Assgn4</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script>
+  var app = angular.module("app",[]);
+  app.controller("Ctrl1",function($scope){
+    $scope.name = "Jack";
+    $scope.alertName = function(){
+      alert($scope.name);
+      return "yoo";
+    };
+  });
+  app.directive("testDirective", function(){
+    return {
+      restrict: "A",
+      scope: {sayName:"&"},
+      template: '<input type="button"  value="Click Here" ng-click = "sayName()"></input>',
+   
+    };
+  });
+    app.controller("AppCtrl", function ($scope) {
+        $scope.callHome = function () {
+            alert("call home");
+        };
+    });
+    app.directive("phone", function () {
+        return {
+            scope: {
+                dial: "&"
+            },
+            template: '<button ng-click="dial()">Call home!</button>',
+        };
+    });
+ 
+    </script>
+</head>
+<body ng-app="app">
+    <div ng-controller="Ctrl1">
+        <h2> An example of Method Binding</h2>
+        <h3 ng-click="alertName()">Hi there  {{name}}, click anywhere on this sentence to alert your name.</h3>
+
+        <div test-directive sayName="alertName()"></div>
+    </div>
+    <br /><br />
+    <div ng-app="AppCtrl">
+        <div phone dial="callHome()"></div>
+    </div>
+    
+</body>
+</html>
